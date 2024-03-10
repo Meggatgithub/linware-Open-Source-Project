@@ -85,15 +85,9 @@ user_input = input("Press a key to continue... ")
 
 if user_input.upper() == "F12":
     boot_from_network()
-else:
-    print("Going...")
-
-if user_input.upper() == "F2":
+elif user_input.upper() == "F2":
     bios_setup()
-else:
-    print("Going...")
-
-if user_input.upper() == "DEL":
+elif user_input.upper() == "DEL":
     system_config()
 else:
-    print("Going...")
+    print("Invalid key pressed. Exiting...")
