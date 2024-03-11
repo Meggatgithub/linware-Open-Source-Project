@@ -2,6 +2,7 @@ import time
 import keyboard
 import psutil
 import platform
+import sys
 
 def bios_screen():
     print("=============================================")
@@ -11,6 +12,7 @@ def bios_screen():
     print("|  Press F12 to boot from network           |")
     print("|  Press DEL to enter system configuration  |")
     print("|  Press F3 to view hardware information    |")
+    print("|  Press F4 to show software information    |")
     print("=============================================")
 
 def boot_from_network():
@@ -83,15 +85,32 @@ def system_config():
 
 def view_hardware_info():
     print("=============================================")
-    print("|          Hardware Information              |")
+    print("|          Hardware Information             |")
     print("=============================================")
     print("CPU: " + platform.processor())
     print("CPU cores: " + str(psutil.cpu_count(logical=False)))
+    print("CPU frequency: " + str(psutil.cpu_freq().current) + " MHz")
+    print("CPU usage: " + str(psutil.cpu_percent(interval=1)) + " %")
     print("RAM total: " + str(round(psutil.virtual_memory().total / (1024.0 ** 3), 2)) + " GB")
     print("RAM used: " + str(round(psutil.virtual_memory().used / (1024.0 ** 3), 2)) + " GB")
     print("Disk total space: " + str(round(psutil.disk_usage('/').total / (1024.0 ** 3), 2)) + " GB")
     print("Disk used space: " + str(round(psutil.disk_usage('/').used / (1024.0 ** 3), 2)) + " GB")
     print("=============================================")
+
+def show_software_info():
+    print("=============================================")
+    print("|          Software Information              |")
+    print("=============================================")
+    print("Operating System: " + platform.system() + " " + platform.release())
+    print("Python Version: " + sys.version)
+    print("Python Implementation: " + platform.python_implementation())
+    print("Python Compiler: " + platform.python_compiler())
+    print("Machine Type: " + platform.machine())
+    print("Network Node: " + platform.node())
+    print("System Architecture: " + platform.architecture()[0])
+    print("System Path: " + sys.prefix)
+    print("=============================================")
+
 
 bios_screen()
 
@@ -99,5 +118,6 @@ keyboard.add_hotkey('f12', boot_from_network)
 keyboard.add_hotkey('f2', bios_setup)
 keyboard.add_hotkey('delete', system_config)
 keyboard.add_hotkey('f3', view_hardware_info)
+keyboard.add_hotkey('f4', show_software_info)
 
 keyboard.wait('q')  
