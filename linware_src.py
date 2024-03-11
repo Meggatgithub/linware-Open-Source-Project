@@ -1,4 +1,5 @@
 import time
+import keyboard
 
 def bios_screen():
     print("=============================================")
@@ -80,14 +81,8 @@ def system_config():
 # Simulate BIOS screen
 bios_screen()
 
-# Simulate user input
-user_input = input("Press a key to continue... ")
+keyboard.add_hotkey('f12', boot_from_network)
+keyboard.add_hotkey('f2', bios_setup)
+keyboard.add_hotkey('delete', system_config)
 
-if user_input.upper() == "F12":
-    boot_from_network()
-elif user_input.upper() == "F2":
-    bios_setup()
-elif user_input.upper() == "DEL":
-    system_config()
-else:
-    print("Invalid key pressed. Exiting...")
+keyboard.wait('q')  
