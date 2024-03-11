@@ -1,5 +1,7 @@
 import time
 import keyboard
+import psutil
+import platform
 
 def bios_screen():
     print("=============================================")
@@ -8,6 +10,7 @@ def bios_screen():
     print("|  Press F2 to enter BIOS Setup             |")
     print("|  Press F12 to boot from network           |")
     print("|  Press DEL to enter system configuration  |")
+    print("|  Press F3 to view hardware information    |")
     print("=============================================")
 
 def boot_from_network():
@@ -78,11 +81,23 @@ def system_config():
 
     print("Exiting System Configuration...")
 
-# Simulate BIOS screen
+def view_hardware_info():
+    print("=============================================")
+    print("|          Hardware Information              |")
+    print("=============================================")
+    print("CPU: " + platform.processor())
+    print("CPU cores: " + str(psutil.cpu_count(logical=False)))
+    print("RAM total: " + str(round(psutil.virtual_memory().total / (1024.0 ** 3), 2)) + " GB")
+    print("RAM used: " + str(round(psutil.virtual_memory().used / (1024.0 ** 3), 2)) + " GB")
+    print("Disk total space: " + str(round(psutil.disk_usage('/').total / (1024.0 ** 3), 2)) + " GB")
+    print("Disk used space: " + str(round(psutil.disk_usage('/').used / (1024.0 ** 3), 2)) + " GB")
+    print("=============================================")
+
 bios_screen()
 
 keyboard.add_hotkey('f12', boot_from_network)
 keyboard.add_hotkey('f2', bios_setup)
 keyboard.add_hotkey('delete', system_config)
+keyboard.add_hotkey('f3', view_hardware_info)
 
 keyboard.wait('q')  
