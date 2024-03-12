@@ -3,6 +3,7 @@ import keyboard
 import psutil
 import platform
 import sys
+import subprocess
 
 def bios_screen():
     print("=============================================")
@@ -13,6 +14,7 @@ def bios_screen():
     print("|  Press DEL to enter system configuration  |")
     print("|  Press F3 to view hardware information    |")
     print("|  Press F4 to show software information    |")
+    print("|  Press N to show network information      |")
     print("=============================================")
 
 def boot_from_network():
@@ -111,6 +113,16 @@ def show_software_info():
     print("System Path: " + sys.prefix)
     print("=============================================")
 
+def show_network_info():
+    print("=============================================")
+    print("|          Network Information              |")
+    print("=============================================")
+    try:
+        result = subprocess.check_output(['ipconfig', '/all']).decode('utf-8')
+        print(result)
+    except subprocess.CalledProcessError:
+        print("Failed to retrieve network information.")
+    print("=============================================")
 
 bios_screen()
 
@@ -119,5 +131,6 @@ keyboard.add_hotkey('f2', bios_setup)
 keyboard.add_hotkey('delete', system_config)
 keyboard.add_hotkey('f3', view_hardware_info)
 keyboard.add_hotkey('f4', show_software_info)
+keyboard.add_hotkey('n', show_network_info)
 
 keyboard.wait('q')  
